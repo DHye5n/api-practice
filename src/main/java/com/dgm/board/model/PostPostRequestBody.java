@@ -1,4 +1,4 @@
-package com.dgm.board.domain;
+package com.dgm.board.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

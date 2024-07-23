@@ -1,11 +1,10 @@
 package com.dgm.board.controller;
 
-import com.dgm.board.domain.Post;
-import com.dgm.board.domain.PostPatchRequestBody;
-import com.dgm.board.domain.PostPostRequestBody;
+import com.dgm.board.model.Post;
+import com.dgm.board.model.PostPatchRequestBody;
+import com.dgm.board.model.PostPostRequestBody;
 import com.dgm.board.service.PostService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -39,12 +38,9 @@ public class PostController {
     @GetMapping("/{postId}")
     public ResponseEntity<Post> getPost(@PathVariable Long postId) {
 
-        Optional<Post> matchingPost = postService.getPost(postId);
+        Post post = postService.getPost(postId);
 
-        return matchingPost
-                    .map(ResponseEntity::ok)
-                    .orElseGet(() -> ResponseEntity.notFound().build());
-
+        return ResponseEntity.ok(post);
     }
 
     /**

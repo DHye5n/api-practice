@@ -1,0 +1,24 @@
+spring:
+  jpa:
+    database: postgresql
+    show-sql: true
+    hibernate:
+      ddl-auto: create-drop
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+    properties:
+      hibernate:
+        format_sql: true
+        hibernate.dialect: org.hibernate.dialect.PostgreSQLDialect
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/board-db
+    username: sai4875
+    password: 626512
+
+#logging:
+#  level:
+#    org.hibernate.type: TRACE
+#    org.hibernate.orm.jdbc.bind: TRACE
+#    org.hibernate.engine.transaction.internal.TransactionImpl: DEBUG
+#    org.springframework.transaction: DEBUG
