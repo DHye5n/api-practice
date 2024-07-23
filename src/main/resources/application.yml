@@ -22,3 +22,4 @@ spring:
 #    org.hibernate.orm.jdbc.bind: TRACE
 #    org.hibernate.engine.transaction.internal.TransactionImpl: DEBUG
 #    org.springframework.transaction: DEBUG
+
