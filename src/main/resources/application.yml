@@ -16,10 +16,21 @@ spring:
     username: sai4875
     password: 626512
 
-#logging:
+  security:
+    user:
+      name: board-admin
+      password: board-admin-password
+
+logging:
+  level:
+    root: INFO
+
+
+  #logging:
 #  level:
 #    org.hibernate.type: TRACE
 #    org.hibernate.orm.jdbc.bind: TRACE
 #    org.hibernate.engine.transaction.internal.TransactionImpl: DEBUG
 #    org.springframework.transaction: DEBUG
+
 

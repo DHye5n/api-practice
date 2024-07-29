@@ -1,5 +1,6 @@
 package com.dgm.board.service;
 
+import com.dgm.board.exception.post.PostNotFoundException;
 import com.dgm.board.model.Post;
 import com.dgm.board.model.PostPatchRequestBody;
 import com.dgm.board.model.PostPostRequestBody;
@@ -34,7 +35,7 @@ public class PostService {
     public Post getPost(Long postId) {
         PostEntity postEntity = postEntityRepository.findById(postId)
                 .orElseThrow(
-                        () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Post not found.")
+                        () -> new PostNotFoundException(postId)
                 );
 
         return Post.from(postEntity);
@@ -55,7 +56,7 @@ public class PostService {
 
                 PostEntity postEntity = postEntityRepository.findById(postId)
                         .orElseThrow(
-                                () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Post not found.")
+                                () -> new PostNotFoundException(postId)
                         );
 
                 postEntity.setBody(postPatchRequestBody.getBody());
@@ -69,7 +70,7 @@ public class PostService {
 
                 PostEntity postEntity = postEntityRepository.findById(postId)
                         .orElseThrow(
-                                () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Post not found.")
+                                () -> new PostNotFoundException(postId)
                         );
 
                 postEntityRepository.delete(postEntity);
