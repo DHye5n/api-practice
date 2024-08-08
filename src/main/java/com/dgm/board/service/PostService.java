@@ -7,14 +7,11 @@ import com.dgm.board.model.PostPostRequestBody;
 import com.dgm.board.model.entity.PostEntity;
 import com.dgm.board.repository.PostEntityRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
-import java.time.ZonedDateTime;
-import java.util.ArrayList;
+import org.springframework.stereotype.Service;
+
 import java.util.List;
-import java.util.Optional;
+
 import java.util.stream.Collectors;
 
 @Service
