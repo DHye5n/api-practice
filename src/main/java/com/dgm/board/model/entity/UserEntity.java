@@ -12,7 +12,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import javax.persistence.*;
 import java.time.ZonedDateTime;
 import java.util.Collection;
-import java.util.List;
 import java.util.Random;
 
 @Entity
@@ -20,7 +19,7 @@ import java.util.Random;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "user")
+@Table(name = "\"user\"")
 @SQLDelete(sql = "UPDATE \"user\" SET deleteddatetime = CURRENT_TIMESTAMP WHERE userid = ?")
 @Where(clause = "deleteddatetime IS NULL")
 public class UserEntity implements UserDetails {
@@ -61,10 +60,10 @@ public class UserEntity implements UserDetails {
         this.updatedDateTime = ZonedDateTime.now();
     }
 
-    public static UserEntity of(String username, String password) {
+    public static UserEntity of(String username, String encodedPassword) {
         UserEntity userEntity = new UserEntity();
         userEntity.setUsername(username);
-        userEntity.setPassword(password);
+        userEntity.setPassword(encodedPassword);
 
         userEntity.setProfile("https://avatar.iran.liara.run/public/" + new Random().nextInt(100));
 
@@ -78,6 +77,12 @@ public class UserEntity implements UserDetails {
         return null;
     }
 
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
     @Override
     public String getPassword() {
         return password;
@@ -86,11 +91,6 @@ public class UserEntity implements UserDetails {
     @Override
     public String getUsername() {
         return username;
-    }
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
     }
 
     @Override

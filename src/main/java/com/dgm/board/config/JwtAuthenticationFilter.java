@@ -37,7 +37,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         SecurityContext securityContext = SecurityContextHolder.getContext();
 
         if (ObjectUtils.isEmpty(authorization) || !authorization.startsWith(BEARER_PREFIX)) {
-            throw new JwtTokenNotFoundException();
+            filterChain.doFilter(request, response);
+            return;
         }
 
         if (!ObjectUtils.isEmpty(authorization)

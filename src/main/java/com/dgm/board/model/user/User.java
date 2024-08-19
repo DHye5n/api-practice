@@ -1,7 +1,5 @@
 package com.dgm.board.model.user;
 
-import com.dgm.board.model.Post;
-import com.dgm.board.model.entity.PostEntity;
 import com.dgm.board.model.entity.UserEntity;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
@@ -22,7 +20,7 @@ public class User {
     private String description;
     private ZonedDateTime createdDateTime;
     private ZonedDateTime updatedDateTime;
-    private ZonedDateTime deletedDateTime;
+
 
     public static User from(UserEntity userEntity) {
         return new User(
@@ -31,7 +29,6 @@ public class User {
                 userEntity.getProfile(),
                 userEntity.getDescription(),
                 userEntity.getCreatedDateTime(),
-                userEntity.getUpdatedDateTime(),
-                userEntity.getDeletedDateTime());
+                userEntity.getUpdatedDateTime());
     }
 }
