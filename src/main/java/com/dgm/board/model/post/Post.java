@@ -1,4 +1,4 @@
-package com.dgm.board.model;
+package com.dgm.board.model.post;
 
 
 import com.dgm.board.model.entity.PostEntity;

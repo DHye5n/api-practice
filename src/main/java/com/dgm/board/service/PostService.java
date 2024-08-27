@@ -1,9 +1,9 @@
 package com.dgm.board.service;
 
 import com.dgm.board.exception.post.PostNotFoundException;
-import com.dgm.board.model.Post;
-import com.dgm.board.model.PostPatchRequestBody;
-import com.dgm.board.model.PostPostRequestBody;
+import com.dgm.board.model.post.Post;
+import com.dgm.board.model.post.PostPatchRequestBody;
+import com.dgm.board.model.post.PostPostRequestBody;
 import com.dgm.board.model.entity.PostEntity;
 import com.dgm.board.repository.PostEntityRepository;
 import lombok.RequiredArgsConstructor;

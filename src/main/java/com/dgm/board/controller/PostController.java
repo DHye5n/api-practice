@@ -1,8 +1,8 @@
 package com.dgm.board.controller;
 
-import com.dgm.board.model.Post;
-import com.dgm.board.model.PostPatchRequestBody;
-import com.dgm.board.model.PostPostRequestBody;
+import com.dgm.board.model.post.Post;
+import com.dgm.board.model.post.PostPatchRequestBody;
+import com.dgm.board.model.post.PostPostRequestBody;
 import com.dgm.board.service.PostService;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -11,7 +11,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequiredArgsConstructor
