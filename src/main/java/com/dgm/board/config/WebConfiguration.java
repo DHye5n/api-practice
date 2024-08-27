@@ -40,7 +40,7 @@ public class WebConfiguration {
         http
                 .cors(Customizer.withDefaults())
                 .authorizeHttpRequests((requests) -> requests
-                        .antMatchers(HttpMethod.POST, "/api/v1/users/**")
+                        .antMatchers(HttpMethod.POST, "/api/v1/users/**", "/api/v1/users/authenticate")
                         .permitAll()
                         .anyRequest()
                         .authenticated())
