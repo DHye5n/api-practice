@@ -12,6 +12,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import javax.persistence.*;
 import java.time.ZonedDateTime;
 import java.util.Collection;
+import java.util.Objects;
 import java.util.Random;
 
 @Entity
@@ -19,7 +20,7 @@ import java.util.Random;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "\"user\"")
+@Table(name = "\"user\"", indexes = { @Index(name = "user_username_idx", columnList = "username", unique = true)})
 @SQLDelete(sql = "UPDATE \"user\" SET deleteddatetime = CURRENT_TIMESTAMP WHERE userid = ?")
 @Where(clause = "deleteddatetime IS NULL")
 public class UserEntity implements UserDetails {
@@ -106,5 +107,18 @@ public class UserEntity implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        UserEntity that = (UserEntity) o;
+        return userId != null && userId.equals(that.userId);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(userId);
     }
 }
