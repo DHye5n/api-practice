@@ -3,12 +3,15 @@ package com.dgm.board.service;
 import com.dgm.board.exception.post.PostNotFoundException;
 import com.dgm.board.exception.user.UserAlreadyExistsException;
 import com.dgm.board.exception.user.UserNotAllowedException;
+import com.dgm.board.exception.user.UserNotFoundException;
 import com.dgm.board.model.entity.UserEntity;
 import com.dgm.board.model.post.Post;
 import com.dgm.board.model.post.PostPatchRequestBody;
 import com.dgm.board.model.post.PostPostRequestBody;
 import com.dgm.board.model.entity.PostEntity;
+import com.dgm.board.model.user.User;
 import com.dgm.board.repository.PostEntityRepository;
+import com.dgm.board.repository.UserEntityRepository;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.stereotype.Service;
@@ -22,6 +25,7 @@ import java.util.stream.Collectors;
 public class PostService {
 
     private final PostEntityRepository postEntityRepository;
+    private final UserEntityRepository userEntityRepository;
 
 
 
@@ -84,4 +88,13 @@ public class PostService {
                 postEntityRepository.delete(postEntity);
 
         }
+
+    public List<Post> getPostsByUsername(String username) {
+        UserEntity userEntity = userEntityRepository.findByUsername(username).
+                orElseThrow(() -> new UserNotFoundException(username));
+
+        List<PostEntity> postEntities = postEntityRepository.findByUser(userEntity);
+
+        return  postEntities.stream().map(Post::from).collect(Collectors.toList());
+    }
 }

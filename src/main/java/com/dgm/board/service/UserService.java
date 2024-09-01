@@ -2,10 +2,12 @@ package com.dgm.board.service;
 
 
 import com.dgm.board.exception.user.UserAlreadyExistsException;
+import com.dgm.board.exception.user.UserNotAllowedException;
 import com.dgm.board.exception.user.UserNotFoundException;
 import com.dgm.board.model.entity.UserEntity;
 import com.dgm.board.model.user.User;
 import com.dgm.board.model.user.UserAuthenticationResponse;
+import com.dgm.board.model.user.UserPatchRequestBody;
 import com.dgm.board.repository.UserEntityRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -74,4 +76,18 @@ public class UserService implements UserDetailsService {
 
     }
 
+    public User updateUser(String username, UserPatchRequestBody userPatchRequestBody, UserEntity currentUser) {
+        UserEntity userEntity = userEntityRepository.findByUsername(username)
+                .orElseThrow(() -> new UserNotFoundException(username));
+
+        if (!userEntity.equals(currentUser)) {
+            throw new UserNotAllowedException();
+        }
+
+        if (userPatchRequestBody.getDescription() != null) {
+            userEntity.setDescription(userPatchRequestBody.getDescription());
+        }
+
+        return User.from(userEntityRepository.save(userEntity));
+    }
 }

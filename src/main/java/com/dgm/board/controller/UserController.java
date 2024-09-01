@@ -1,13 +1,12 @@
 package com.dgm.board.controller;
 
 
-import com.dgm.board.model.user.User;
-import com.dgm.board.model.user.UserAuthenticationResponse;
-import com.dgm.board.model.user.UserLoginRequestBody;
-import com.dgm.board.model.user.UserSignUpRequestBody;
+import com.dgm.board.model.entity.UserEntity;
+import com.dgm.board.model.user.*;
 import com.dgm.board.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -42,6 +41,15 @@ public class UserController {
     public ResponseEntity<UserAuthenticationResponse> authenticate(@Valid @RequestBody UserLoginRequestBody userLoginRequestBody) {
         UserAuthenticationResponse response = userService.authenticate(userLoginRequestBody.getUsername(), userLoginRequestBody.getPassword());
         return ResponseEntity.ok(response);
+    }
+
+    @PatchMapping("/{username}")
+    public ResponseEntity<User> updateUser(@PathVariable String username,
+                                              @RequestBody UserPatchRequestBody userPatchRequestBody,
+                                              Authentication authentication) {
+
+        User user = userService.updateUser(username, userPatchRequestBody, (UserEntity) authentication.getPrincipal());
+        return ResponseEntity.ok(user);
     }
 
 }

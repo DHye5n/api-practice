@@ -4,7 +4,9 @@ import com.dgm.board.model.entity.UserEntity;
 import com.dgm.board.model.post.Post;
 import com.dgm.board.model.post.PostPatchRequestBody;
 import com.dgm.board.model.post.PostPostRequestBody;
+import com.dgm.board.model.user.User;
 import com.dgm.board.service.PostService;
+import com.dgm.board.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -96,6 +98,12 @@ public class PostController {
         postService.deletePost(postId, (UserEntity) authentication.getPrincipal());
 
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/{username}/users")
+    public ResponseEntity<List<Post>> getPostsByUsername(@PathVariable String username) {
+        List<Post> posts = postService.getPostsByUsername(username);
+        return ResponseEntity.ok(posts);
     }
 
 }
