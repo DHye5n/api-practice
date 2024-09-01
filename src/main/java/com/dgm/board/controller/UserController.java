@@ -8,12 +8,10 @@ import com.dgm.board.model.user.UserSignUpRequestBody;
 import com.dgm.board.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -21,6 +19,18 @@ import javax.validation.Valid;
 public class UserController {
 
     private final UserService userService;
+
+    @GetMapping
+    public ResponseEntity<List<User>> getUsers(@RequestParam(required = false) String query) {
+        List<User> users = userService.getUsers(query);
+        return ResponseEntity.ok(users);
+    }
+
+    @GetMapping("/{username}")
+    public ResponseEntity<User> getUser(@PathVariable String username) {
+        User user = userService.getUser(username);
+        return ResponseEntity.ok(user);
+    }
 
     @PostMapping
     public ResponseEntity<User> signUp(@Valid @RequestBody UserSignUpRequestBody userSignUpRequestBody) {
