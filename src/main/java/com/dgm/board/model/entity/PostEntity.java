@@ -27,6 +27,8 @@ public class PostEntity {
     @Column
     private Long repliesCount = 0L;
     @Column
+    private Long likesCount = 0L;
+    @Column
     private ZonedDateTime createdDateTime;
     @Column
     private ZonedDateTime updatedDateTime;
@@ -59,11 +61,18 @@ public class PostEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         PostEntity that = (PostEntity) o;
-        return Objects.equals(postId, that.postId) && Objects.equals(body, that.body) && Objects.equals(repliesCount, that.repliesCount) && Objects.equals(createdDateTime, that.createdDateTime) && Objects.equals(updatedDateTime, that.updatedDateTime) && Objects.equals(deletedDateTime, that.deletedDateTime) && Objects.equals(user, that.user);
+        return Objects.equals(postId, that.postId) &&
+                Objects.equals(body, that.body) &&
+                Objects.equals(repliesCount, that.repliesCount) &&
+                Objects.equals(likesCount, that.likesCount) &&
+                Objects.equals(createdDateTime, that.createdDateTime)
+                && Objects.equals(updatedDateTime, that.updatedDateTime)
+                && Objects.equals(deletedDateTime, that.deletedDateTime)
+                && Objects.equals(user, that.user);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(postId, body, repliesCount, createdDateTime, updatedDateTime, deletedDateTime, user);
+        return Objects.hash(postId, body, repliesCount, likesCount, createdDateTime, updatedDateTime, deletedDateTime, user);
     }
 }

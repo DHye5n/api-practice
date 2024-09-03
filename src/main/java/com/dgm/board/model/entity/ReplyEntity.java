@@ -10,6 +10,7 @@ import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 import java.time.ZonedDateTime;
+import java.util.Objects;
 
 @Entity
 @Table(name = "reply", indexes = { @Index(name = "reply_userid_idx", columnList = "userid"),
@@ -60,4 +61,22 @@ public class ReplyEntity {
         this.updatedDateTime = ZonedDateTime.now();
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ReplyEntity that = (ReplyEntity) o;
+        return Objects.equals(replyId, that.replyId)
+                && Objects.equals(body, that.body)
+                && Objects.equals(createdDateTime, that.createdDateTime)
+                && Objects.equals(updatedDateTime, that.updatedDateTime)
+                && Objects.equals(deletedDateTime, that.deletedDateTime)
+                && Objects.equals(user, that.user)
+                && Objects.equals(post, that.post);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(replyId, body, createdDateTime, updatedDateTime, deletedDateTime, user, post);
+    }
 }
