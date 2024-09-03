@@ -18,6 +18,7 @@ public class Post {
 
     private Long postId;
     private String body;
+    private Long repliesCount;
     private User user;
     private ZonedDateTime createdDateTime;
     private ZonedDateTime updatedDateTime;
@@ -27,6 +28,7 @@ public class Post {
         return new Post(
                 postEntity.getPostId(),
                 postEntity.getBody(),
+                postEntity.getRepliesCount(),
                 User.from(postEntity.getUser()),
                 postEntity.getCreatedDateTime(),
                 postEntity.getUpdatedDateTime(),

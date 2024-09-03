@@ -91,19 +91,13 @@ public class PostController {
      * */
 
     @DeleteMapping("/{postId}")
-    public ResponseEntity<Void> updatePost(@PathVariable Long postId, Authentication authentication) {
+    public ResponseEntity<Void> deletePost(@PathVariable Long postId, Authentication authentication) {
 
         logger.info("DELETE /api/v1/posts/{}", postId);
 
         postService.deletePost(postId, (UserEntity) authentication.getPrincipal());
 
         return ResponseEntity.noContent().build();
-    }
-
-    @GetMapping("/{username}/users")
-    public ResponseEntity<List<Post>> getPostsByUsername(@PathVariable String username) {
-        List<Post> posts = postService.getPostsByUsername(username);
-        return ResponseEntity.ok(posts);
     }
 
 }
