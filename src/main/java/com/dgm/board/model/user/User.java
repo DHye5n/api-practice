@@ -18,6 +18,8 @@ public class User {
     private String username;
     private String profile;
     private String description;
+    private Long followersCount;
+    private Long followingsCount;
     private ZonedDateTime createdDateTime;
     private ZonedDateTime updatedDateTime;
 
@@ -28,6 +30,8 @@ public class User {
                 userEntity.getUsername(),
                 userEntity.getProfile(),
                 userEntity.getDescription(),
+                userEntity.getFollowersCount(),
+                userEntity.getFollowingsCount(),
                 userEntity.getCreatedDateTime(),
                 userEntity.getUpdatedDateTime());
     }

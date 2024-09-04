@@ -30,11 +30,11 @@ public class PostController {
      * */
 
     @GetMapping
-    public ResponseEntity<List<Post>> getPosts() {
+    public ResponseEntity<List<Post>> getPosts(Authentication authentication) {
 
         logger.info("GET /api/v1/posts");
 
-        List<Post> posts = postService.getPosts();
+        List<Post> posts = postService.getPosts((UserEntity) authentication.getPrincipal());
 
         return ResponseEntity.ok(posts);
     }
@@ -45,11 +45,11 @@ public class PostController {
      * */
 
     @GetMapping("/{postId}")
-    public ResponseEntity<Post> getPost(@PathVariable Long postId) {
+    public ResponseEntity<Post> getPost(@PathVariable Long postId, Authentication authentication) {
 
         logger.info("GET /api/v1/posts/{}", postId);
 
-        Post post = postService.getPost(postId);
+        Post post = postService.getPost(postId, (UserEntity) authentication.getPrincipal());
 
         return ResponseEntity.ok(post);
     }

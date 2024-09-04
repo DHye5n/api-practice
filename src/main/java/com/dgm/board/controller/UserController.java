@@ -56,9 +56,37 @@ public class UserController {
     }
 
     @GetMapping("/{username}/posts")
-    public ResponseEntity<List<Post>> getPostsByUsername(@PathVariable String username) {
-        List<Post> posts = postService.getPostsByUsername(username);
+    public ResponseEntity<List<Post>> getPostsByUsername(@PathVariable String username,
+                                                         Authentication authentication) {
+        List<Post> posts = postService.getPostsByUsername(username, (UserEntity) authentication.getPrincipal());
         return ResponseEntity.ok(posts);
     }
 
+    @GetMapping("/{username}/followers")
+    public ResponseEntity<List<User>> getFollowersByUser(@PathVariable String username) {
+        List<User> followers = userService.getFollowersByUsername(username);
+
+        return ResponseEntity.ok(followers);
+    }
+
+    @GetMapping("/{username}/followings")
+    public ResponseEntity<List<User>> getFollowingsByUser(@PathVariable String username) {
+        List<User> followings = userService.getFollowingsByUsername(username);
+
+        return ResponseEntity.ok(followings);
+    }
+
+    @PostMapping("/{username}/follows")
+    public ResponseEntity<User> follow(@PathVariable String username, Authentication authentication) {
+        User user = userService.follow(username, (UserEntity) authentication.getPrincipal());
+
+        return ResponseEntity.ok(user);
+    }
+
+    @DeleteMapping("/{username}/follows")
+    public  ResponseEntity<User> unFollow(@PathVariable String username, Authentication authentication) {
+        User user = userService.unFollow(username, (UserEntity) authentication.getPrincipal());
+
+        return ResponseEntity.ok(user);
+    }
 }

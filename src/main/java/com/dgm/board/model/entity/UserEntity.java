@@ -42,6 +42,12 @@ public class UserEntity implements UserDetails {
     private String description;
 
     @Column
+    private Long followersCount = 0L;
+
+    @Column
+    private Long followingsCount = 0L;
+
+    @Column
     private ZonedDateTime createdDateTime;
 
     @Column
@@ -114,11 +120,21 @@ public class UserEntity implements UserDetails {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         UserEntity that = (UserEntity) o;
-        return Objects.equals(userId, that.userId) && Objects.equals(username, that.username) && Objects.equals(password, that.password) && Objects.equals(profile, that.profile) && Objects.equals(description, that.description) && Objects.equals(createdDateTime, that.createdDateTime) && Objects.equals(updatedDateTime, that.updatedDateTime) && Objects.equals(deletedDateTime, that.deletedDateTime);
+        return Objects.equals(userId, that.userId)
+                && Objects.equals(username, that.username)
+                && Objects.equals(password, that.password)
+                && Objects.equals(profile, that.profile)
+                && Objects.equals(description, that.description)
+                && Objects.equals(followersCount, that.followersCount)
+                && Objects.equals(followingsCount, that.followingsCount)
+                && Objects.equals(createdDateTime, that.createdDateTime)
+                && Objects.equals(updatedDateTime, that.updatedDateTime)
+                && Objects.equals(deletedDateTime, that.deletedDateTime);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(userId, username, password, profile, description, createdDateTime, updatedDateTime, deletedDateTime);
+        return Objects.hash(userId, username, password, profile, description, followersCount,
+                followingsCount, createdDateTime, updatedDateTime, deletedDateTime);
     }
 }
