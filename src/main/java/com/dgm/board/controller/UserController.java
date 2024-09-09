@@ -3,8 +3,10 @@ package com.dgm.board.controller;
 
 import com.dgm.board.model.entity.UserEntity;
 import com.dgm.board.model.post.Post;
+import com.dgm.board.model.reply.Reply;
 import com.dgm.board.model.user.*;
 import com.dgm.board.service.PostService;
+import com.dgm.board.service.ReplyService;
 import com.dgm.board.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -21,16 +23,17 @@ public class UserController {
 
     private final UserService userService;
     private final PostService postService;
+    private final ReplyService replyService;
 
     @GetMapping
-    public ResponseEntity<List<User>> getUsers(@RequestParam(required = false) String query) {
-        List<User> users = userService.getUsers(query);
+    public ResponseEntity<List<User>> getUsers(@RequestParam(required = false) String query, Authentication authentication) {
+        List<User> users = userService.getUsers(query, (UserEntity) authentication.getPrincipal());
         return ResponseEntity.ok(users);
     }
 
     @GetMapping("/{username}")
-    public ResponseEntity<User> getUser(@PathVariable String username) {
-        User user = userService.getUser(username);
+    public ResponseEntity<User> getUser(@PathVariable String username, Authentication authentication) {
+        User user = userService.getUser(username, (UserEntity) authentication.getPrincipal());
         return ResponseEntity.ok(user);
     }
 
@@ -63,17 +66,32 @@ public class UserController {
     }
 
     @GetMapping("/{username}/followers")
-    public ResponseEntity<List<User>> getFollowersByUser(@PathVariable String username) {
-        List<User> followers = userService.getFollowersByUsername(username);
+    public ResponseEntity<List<Follower>> getFollowersByUser(@PathVariable String username, Authentication authentication) {
+        List<Follower> followers = userService.getFollowersByUsername(username, (UserEntity) authentication.getPrincipal());
 
         return ResponseEntity.ok(followers);
     }
 
     @GetMapping("/{username}/followings")
-    public ResponseEntity<List<User>> getFollowingsByUser(@PathVariable String username) {
-        List<User> followings = userService.getFollowingsByUsername(username);
+    public ResponseEntity<List<User>> getFollowingsByUser(@PathVariable String username, Authentication authentication) {
+        List<User> followings = userService.getFollowingsByUsername(username, (UserEntity) authentication.getPrincipal());
 
         return ResponseEntity.ok(followings);
+    }
+
+    @GetMapping("/{username}/replies")
+    public ResponseEntity<List<Reply>> getRepliesByUser(@PathVariable String username) {
+
+        List<Reply> replies = replyService.getRepliesByUser(username);
+
+        return ResponseEntity.ok(replies);
+    }
+
+    @GetMapping("/{username}/liked-users")
+    public ResponseEntity<List<LikedUser>> getLikedUsersByUser(@PathVariable String username, Authentication authentication) {
+        List<LikedUser> likedUsers = userService.getLikedUsersByUser(username, (UserEntity) authentication.getPrincipal());
+
+        return ResponseEntity.ok(likedUsers);
     }
 
     @PostMapping("/{username}/follows")

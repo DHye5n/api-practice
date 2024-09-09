@@ -3,12 +3,12 @@ package com.dgm.board.model.user;
 import com.dgm.board.model.entity.UserEntity;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.ZonedDateTime;
 
-@Data
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -22,6 +22,8 @@ public class User {
     private Long followingsCount;
     private ZonedDateTime createdDateTime;
     private ZonedDateTime updatedDateTime;
+    private Boolean isFollowing;
+
 
 
     public static User from(UserEntity userEntity) {
@@ -33,6 +35,19 @@ public class User {
                 userEntity.getFollowersCount(),
                 userEntity.getFollowingsCount(),
                 userEntity.getCreatedDateTime(),
-                userEntity.getUpdatedDateTime());
+                userEntity.getUpdatedDateTime(),
+                null);
+    }
+    public static User from(UserEntity userEntity, boolean isFollowing) {
+        return new User(
+                userEntity.getUserId(),
+                userEntity.getUsername(),
+                userEntity.getProfile(),
+                userEntity.getDescription(),
+                userEntity.getFollowersCount(),
+                userEntity.getFollowingsCount(),
+                userEntity.getCreatedDateTime(),
+                userEntity.getUpdatedDateTime(),
+                isFollowing);
     }
 }

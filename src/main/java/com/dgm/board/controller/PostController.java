@@ -4,12 +4,10 @@ import com.dgm.board.model.entity.UserEntity;
 import com.dgm.board.model.post.Post;
 import com.dgm.board.model.post.PostPatchRequestBody;
 import com.dgm.board.model.post.PostPostRequestBody;
-import com.dgm.board.model.user.User;
+import com.dgm.board.model.user.LikedUser;
 import com.dgm.board.service.PostService;
 import com.dgm.board.service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
@@ -21,9 +19,9 @@ import java.util.List;
 @RequestMapping("/api/v1/posts")
 public class PostController {
 
-    private static final Logger logger = LoggerFactory.getLogger(PostController.class);
 
     private final PostService postService;
+    private final UserService userService;
 
     /**
      *      목록 조회
@@ -31,8 +29,6 @@ public class PostController {
 
     @GetMapping
     public ResponseEntity<List<Post>> getPosts(Authentication authentication) {
-
-        logger.info("GET /api/v1/posts");
 
         List<Post> posts = postService.getPosts((UserEntity) authentication.getPrincipal());
 
@@ -47,11 +43,19 @@ public class PostController {
     @GetMapping("/{postId}")
     public ResponseEntity<Post> getPost(@PathVariable Long postId, Authentication authentication) {
 
-        logger.info("GET /api/v1/posts/{}", postId);
-
         Post post = postService.getPost(postId, (UserEntity) authentication.getPrincipal());
 
         return ResponseEntity.ok(post);
+    }
+
+    @GetMapping("/{postId}/liked-users")
+    public ResponseEntity<List<LikedUser>> getLikedUsersByPostId(@PathVariable Long postId, Authentication authentication) {
+
+        List<LikedUser> likedUsers = userService.getLikedUsersByPostId(postId, (UserEntity) authentication.getPrincipal());
+
+        Post post = postService.getPost(postId, (UserEntity) authentication.getPrincipal());
+
+        return ResponseEntity.ok(likedUsers);
     }
 
     /**
@@ -61,9 +65,6 @@ public class PostController {
     @PostMapping
     public ResponseEntity<Post> createPost(@RequestBody PostPostRequestBody postPostRequestBody,
                                                         Authentication authentication) {
-
-        logger.info("POST /api/v1/posts");
-
         Post post = postService.createPost(postPostRequestBody, (UserEntity)authentication.getPrincipal());
 
         return ResponseEntity.ok(post);
@@ -79,8 +80,6 @@ public class PostController {
             @RequestBody PostPatchRequestBody postPatchRequestBody,
             Authentication authentication) {
 
-        logger.info("PATCH /api/v1/posts/{}", postId);
-
         Post post = postService.updatePost(postId, postPatchRequestBody, (UserEntity) authentication.getPrincipal());
 
         return ResponseEntity.ok(post);
@@ -93,8 +92,6 @@ public class PostController {
     @DeleteMapping("/{postId}")
     public ResponseEntity<Void> deletePost(@PathVariable Long postId, Authentication authentication) {
 
-        logger.info("DELETE /api/v1/posts/{}", postId);
-
         postService.deletePost(postId, (UserEntity) authentication.getPrincipal());
 
         return ResponseEntity.noContent().build();
@@ -106,8 +103,6 @@ public class PostController {
 
     @PostMapping("/{postId}/likes")
     public ResponseEntity<Post> toggleLike(@PathVariable Long postId, Authentication authentication) {
-
-        logger.info("Post /api/v1/posts/{}/likes", postId);
 
         Post post = postService.toggleLike(postId, (UserEntity) authentication.getPrincipal());
 

@@ -3,6 +3,7 @@ package com.dgm.board.service;
 import com.dgm.board.exception.post.PostNotFoundException;
 import com.dgm.board.exception.reply.ReplyNotFoundException;
 import com.dgm.board.exception.user.UserNotAllowedException;
+import com.dgm.board.exception.user.UserNotFoundException;
 import com.dgm.board.model.entity.PostEntity;
 import com.dgm.board.model.entity.ReplyEntity;
 import com.dgm.board.model.entity.UserEntity;
@@ -93,4 +94,16 @@ public class ReplyService {
         postEntityRepository.save(postEntity);
     }
 
+    public List<Reply> getRepliesByUser(String username) {
+
+        UserEntity userEntity = userEntityRepository.findByUsername(username)
+                .orElseThrow(() -> new UserNotFoundException(username));
+
+        List<ReplyEntity> replyEntities = replyEntityRepository.findByUser(userEntity);
+
+        return replyEntities
+                .stream()
+                .map(Reply::from)
+                .collect(Collectors.toList());
+    }
 }
